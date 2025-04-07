@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Trains</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="/script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Search Trains</h1>
+        <input type="text" id="source" list="sourceStations" placeholder="Source Station" autocomplete="off">
+        <datalist id="sourceStations"></datalist>
+        
+        <input type="text" id="destination" list="destStations" placeholder="Destination Station" autocomplete="off">
+        <datalist id="destStations"></datalist>
+        
+        <input type="date" id="date">
+        <button onclick="searchTrains()">Search</button>
+        <div id="results"></div>
+    </div>
+</body>
+</html>

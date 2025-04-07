@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Train</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Book Train</h1>
+        <p>Train: <%= schedule.TrainName %></p>
+        <p>From: <%= schedule.Source %> To: <%= schedule.Dest %></p>
+        <p>Departure: <%= schedule.DepartureTime %> | Arrival: <%= schedule.ArrivalTime %></p>
+        <form method="POST" action="/booking">
+            <input type="hidden" name="scheduleId" value="<%= schedule.ScheduleID %>">
+            <input type="number" name="passengers" placeholder="Number of Passengers" min="1" required>
+            <button type="submit">Confirm Booking</button>
+        </form>
+    </div>
+</body>
+</html>
