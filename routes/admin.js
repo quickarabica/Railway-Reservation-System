@@ -2,8 +2,11 @@ const express = require('express');
 const router = express.Router();
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('./railway.db');
-const bcrypt = require('bcrypt');
 
+
+router.get('/', (req, res) => {
+  res.render('admin/dashboard');
+});
 
 // View all users
 router.get('/users', (req, res) => {
@@ -26,11 +29,9 @@ router.post('/users/add', async (req, res) => {
         // Email already exists
         return res.send('<script>alert("Email already exists!"); window.location.href="/admin/users";</script>');
       } else {
-        const hashedPassword = await bcrypt.hash(password, 10);
-  
         db.run(
-          `INSERT INTO User (Username, Email, PasswordHash, PhoneNumber) VALUES (?, ?, ?, ?)`,
-          [username, email, hashedPassword, phone || null],
+          `INSERT INTO User (Username, Email, Password, PhoneNumber) VALUES (?, ?, ?, ?)`,
+          [username, email, password, phone || null],
           function (err) {
             if (err) {
               console.error(err.message);
@@ -56,6 +57,23 @@ router.post('/users/delete/:id', (req, res) => {
     });
   });
 
+  router.post('/users/edit/:id', (req, res) => {
+    const { username, email, phone, password } = req.body;
+    const userId = req.params.id;
+  
+    db.run(
+      `UPDATE User SET Username = ?, Email = ?, PhoneNumber = ?, Password = ? WHERE UserID = ?`,
+      [username, email, phone || null, password, userId],
+      function (err) {
+        if (err) {
+          console.error('Error updating user:', err.message);
+          return res.status(500).send('Error updating user');
+        }
+        res.redirect('/admin/users');
+      }
+    );
+  });
+  
 
 // example for stations
 router.get('/stations', async (req, res) => {

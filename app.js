@@ -170,10 +170,6 @@ app.get('/logout', (req, res) => {
 app.set('view engine', 'ejs');
 const adminRoutes = require('./routes/admin');
 app.use('/admin', adminRoutes);
-app.get('/admin', (req, res) => {
-    res.render('admin');  // make sure admin.ejs exists in /views
-  });
-  
 // Start server
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
