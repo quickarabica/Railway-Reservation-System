@@ -7,6 +7,11 @@ const db = new sqlite3.Database('./railway.db');
 router.get('/', (req, res) => {
   res.render('admin/dashboard');
 });
+router.get('/er-diagram', (req, res) => {
+  res.render('admin/er-diagram');
+});
+
+
 
 // View all users
 router.get('/users', (req, res) => {

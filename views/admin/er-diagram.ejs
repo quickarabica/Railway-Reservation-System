@@ -1,0 +1,89 @@
+<script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  <style>
+    .mermaid {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 50px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .clickable-node {
+      cursor: pointer;
+      fill: #007bff !important;
+      text-decoration: underline;
+    }
+  </style>
+  <h1 class="text-center">Entity-Relationship Diagram</h1>
+  <div class="d-flex justify-content-end mt-3">
+    <button onclick="window.location.href='/admin'" class="btn btn-primary btn-lg">
+      Back to Dashboard
+    </button>
+  </div>
+  
+
+<div class="mermaid" id="er-diagram">
+    erDiagram
+
+      User {
+        INT UserID PK
+        VARCHAR Username
+        VARCHAR Email
+        VARCHAR Password
+        VARCHAR PhoneNumber
+        TIMESTAMP CreatedAt
+      }
+
+      Station {
+        INT StationID PK
+        VARCHAR StationName
+        VARCHAR StationCode
+        VARCHAR City
+      }
+
+      Train {
+        INT TrainID PK
+        VARCHAR TrainNumber
+        VARCHAR TrainName
+        VARCHAR TrainType
+      }
+
+      Route {
+        INT RouteID PK
+        INT SourceStationID FK
+        INT DestinationStationID FK
+        DECIMAL Distance
+      }
+
+      Schedule {
+        INT ScheduleID PK
+        INT TrainID FK
+        INT RouteID FK
+        DATETIME DepartureTime
+        DATETIME ArrivalTime
+        INT TotalSeats
+      }
+
+      Booking {
+        INT BookingID PK
+        INT UserID FK
+        INT ScheduleID FK
+        TIMESTAMP BookingDate
+        VARCHAR Status
+        DECIMAL TotalFare
+      }
+
+      %% Relationships
+      User ||--o{ Booking : "makes"
+      Schedule ||--o{ Booking : "has"
+      Train ||--o{ Schedule : "operates"
+      Route ||--o{ Schedule : "includes"
+      Station ||--o{ Route : "is source"
+      Station ||--o{ Route : "is destination"
+  </div>  
+</body>
+</html>

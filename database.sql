@@ -51,8 +51,16 @@ CREATE TABLE IF NOT EXISTS Booking (
     FOREIGN KEY (UserID) REFERENCES User(UserID),
     FOREIGN KEY (ScheduleID) REFERENCES Schedule(ScheduleID)
 );
+CREATE TABLE IF NOT EXISTS Payment (
+    PaymentID INTEGER PRIMARY KEY AUTOINCREMENT,
+    BookingID INTEGER NOT NULL,
+    Amount DECIMAL(10, 2) NOT NULL,
+    PaymentDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PaymentMethod VARCHAR(50),
+    PaymentStatus VARCHAR(20) DEFAULT 'Completed',
+    FOREIGN KEY (BookingID) REFERENCES Booking(BookingID)
+);
 
--- Sample data
 INSERT INTO Station (StationName, StationCode, City) VALUES 
 ('Howrah Junction', 'HWH', 'Kolkata'),
 ('Sealdah', 'SDAH', 'Kolkata'),
