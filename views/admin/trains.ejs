@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Train Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <div class="container py-4">
+    <h2>Train Management</h2>
+
+    <!-- Add Train Form -->
+    <form action="/admin/trains/add" method="POST" class="row g-3 mb-4">
+      <div class="col-md-3"><input name="TrainNumber" class="form-control" placeholder="Train Number" required></div>
+      <div class="col-md-4"><input name="TrainName" class="form-control" placeholder="Train Name" required></div>
+      <div class="col-md-3"><input name="TrainType" class="form-control" placeholder="Train Type" required></div>
+      <div class="col-md-2"><button class="btn btn-primary">Add Train</button></div>
+    </form>
+
+    <!-- Train Table -->
+    <table class="table table-bordered table-hover">
+      <thead class="table-dark">
+        <tr><th>ID</th><th>Number</th><th>Name</th><th>Type</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        <% trains.forEach(train => { %>
+          <tr>
+            <form method="POST" action="/admin/trains/edit/<%= train.TrainID %>">
+              <td><%= train.TrainID %></td>
+              <td><input name="TrainNumber" value="<%= train.TrainNumber %>" class="form-control" required></td>
+              <td><input name="TrainName" value="<%= train.TrainName %>" class="form-control" required></td>
+              <td><input name="TrainType" value="<%= train.TrainType %>" class="form-control" required></td>
+              <td>
+                <button class="btn btn-sm btn-success">Save</button>
+                <form method="POST" action="/admin/trains/delete/<%= train.TrainID %>" style="display:inline;">
+                  <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this train?')">Delete</button>
+                </form>
+              </td>
+            </form>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
