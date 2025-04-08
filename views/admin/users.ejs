@@ -33,26 +33,30 @@
           </tr>
         </thead>
         <tbody>
-            <% users.forEach(user => { %>
-              <tr>
-                <td><%= user.UserID %></td>
-                <td><%= user.Username %></td>
-                <td><%= user.Email %></td>
-                <td><%= user.PhoneNumber || 'N/A' %></td>
-                <td>
-                    <div class="d-flex align-items-center">
-                      <input type="password" class="form-control form-control-sm me-2 password-field" value="<%= user.PasswordHash %>" readonly>
-                      <button type="button" class="btn btn-sm btn-secondary btn-toggle">Show</button>
-                    </div>
-                  </td>
-                <td>
-                  <form method="POST" action="/admin/users/delete/<%= user.UserID %>" style="display:inline;">
-                    <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
-                  </form>
-                </td>
-              </tr>
-            <% }) %>
-          </tbody>
+  <% users.forEach(user => { %>
+    <tr>
+      <form method="POST" action="/admin/users/edit/<%= user.UserID %>">
+        <td><%= user.UserID %></td>
+        <td><input name="username" value="<%= user.Username %>" class="form-control" required></td>
+        <td><input name="email" type="email" value="<%= user.Email %>" class="form-control" required></td>
+        <td><input name="phone" value="<%= user.PhoneNumber || '' %>" class="form-control"></td>
+        <td>
+          <div class="d-flex align-items-center">
+            <input type="password" class="form-control form-control-sm me-2 password-field" value="<%= user.PasswordHash %>" readonly>
+            <button type="button" class="btn btn-sm btn-secondary btn-toggle">Show</button>
+          </div>
+        </td>
+        <td>
+          <button class="btn btn-sm btn-success">Save</button>
+          <form method="POST" action="/admin/users/delete/<%= user.UserID %>" style="display:inline;">
+            <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+          </form>
+        </td>
+      </form>
+    </tr>
+  <% }) %>
+</tbody>
+
       </table>
       
   </div>
