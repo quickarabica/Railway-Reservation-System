@@ -3,42 +3,88 @@
 <head>
   <title>Station Management</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .glass-input {
+      background: rgba(163, 232, 255, 0.6);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: 1px solid rgba(173, 216, 230, 0.3);
+      border-radius: 10px;
+      color: #333;
+    }
+
+    .glass-input::placeholder {
+      color: #0c0505;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-radius: 20px;
+      border: 1px solid rgba(153, 142, 215, 0.3);
+      padding: 25px;
+      box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .form-control, .form-select {
+      border-radius: 10px;
+    }
+
+    table input {
+      min-width: 120px;
+    }
+  </style>
 </head>
 <body class="bg-light">
   <div class="container py-4">
-    <h2>Station Management</h2>
-    <form action="/admin/stations/add" method="POST" class="row g-3 mb-4">
-        <div class="col-md-3"><input name="StationName" required placeholder="Station Name" class="form-control" /></div>
-        <div class="col-md-4"><input name="StationCode" required placeholder="Code" class="form-control" /></div>
-        <div class="col-md-3"><input name="City" required placeholder="City" class="form-control" /></div>
-        <div class="col-md-2"><button class="btn btn-success">Add Station</button></div>
-  </form>
-  
-  <table class="table">
-    <thead>
-      <tr><th>ID</th><th>Name</th><th>Code</th><th>City</th><th>Actions</th></tr>
-    </thead>
-    <tbody>
-        <% stations.forEach(station => { %>
-          <tr>
-            <form method="POST" action="/admin/stations/edit/<%= station.StationID %>">
-              <td><%= station.StationID %></td>
-              <td><input name="StationName" class="form-control" value="<%= station.StationName %>" required></td>
-              <td><input name="StationCode" class="form-control" value="<%= station.StationCode %>" required></td>
-              <td><input name="City" class="form-control" value="<%= station.City %>" required></td>
-              <td>
-                <button class="btn btn-sm btn-success">Save</button>
-                <form method="POST" action="/admin/stations/delete/<%= station.StationID %>" style="display:inline;">
-                  <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this station?')">Delete</button>
-                </form>
-              </td>
-            </form>
-          </tr>
-        <% }) %>
-      </tbody>
-      
-  </table>
-</div>
+    <h2 class="mb-4">Station Management</h2>
+
+    <!-- Add Station Form -->
+    <div class="glass-card mb-4">
+      <form action="/admin/stations/add" method="POST" class="row g-3">
+        <div class="col-md-3">
+          <input name="StationName" required placeholder="Station Name" class="form-control glass-input" />
+        </div>
+        <div class="col-md-4">
+          <input name="StationCode" required placeholder="Code" class="form-control glass-input" />
+        </div>
+        <div class="col-md-3">
+          <input name="City" required placeholder="City" class="form-control glass-input" />
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-success w-100">Add Station</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Station Table -->
+    <div class="glass-card">
+      <table class="table table-bordered table-hover mb-0">
+        <thead class="table-dark">
+          <tr><th>ID</th><th>Name</th><th>Code</th><th>City</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+          <% stations.forEach(station => { %>
+            <tr>
+              <form method="POST" action="/admin/stations/edit/<%= station.StationID %>">
+                <td><%= station.StationID %></td>
+                <td><input name="StationName" class="form-control glass-input" value="<%= station.StationName %>" required></td>
+                <td><input name="StationCode" class="form-control glass-input" value="<%= station.StationCode %>" required></td>
+                <td><input name="City" class="form-control glass-input" value="<%= station.City %>" required></td>
+                <td>
+                  <button class="btn btn-sm btn-success me-1">Save</button>
+              </form>
+              <form method="POST" action="/admin/stations/delete/<%= station.StationID %>" style="display:inline;">
+                <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this station?')">Delete</button>
+              </form>
+                </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </body>
 </html>
-  

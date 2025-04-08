@@ -1,13 +1,109 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Railway Reservation</title>
-    <link rel="stylesheet" href="/style.css">
+  <meta charset="UTF-8">
+  <title>Railway Reservation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* 🔹 Background Video Styling */
+   video#bgVideo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1;
+  pointer-events: none; /* Optional: avoids accidental clicks on video */
+  background-color: white; /* fallback color */
+}
+
+    /* 🔹 Container with Glass Effect */
+    .container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 40px;
+      width: 90%;
+      max-width: 600px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      z-index: 1;
+    }
+
+    h1 {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 38px;
+      color: black;
+      margin-bottom: 30px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    }
+
+    .nav-links {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: white;
+      background: rgba(0, 123, 255, 0.6);
+      padding: 12px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .nav-links a:hover {
+      background: rgba(0, 123, 255, 0.85);
+      transform: scale(1.03);
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Railway Reservation System</h1>
-        <a href="/register">Register</a> | <a href="/login">Login</a> | <a href="/search">Search Trains</a> | <a href="/logout">Logout</a>
+
+  <!-- 🔹 Background Video -->
+  <video autoplay muted loop id="bgVideo">
+    <source src="train.mp4" type="video/mp4">
+    Your browser does not support HTML5 video.
+  </video>
+
+  <!-- 🔹 Foreground Content -->
+  <div class="container">
+    <h1>Railway Reservation System</h1>
+    <div class="nav-links">
+      <a href="/register">Register</a>
+      <a href="/login">Login</a>
+      <a href="/search">Search Trains</a>
+      <a href="/logout">Logout</a>
     </div>
+  </div>
+
 </body>
 </html>
