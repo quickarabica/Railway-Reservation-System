@@ -1,31 +1,3 @@
-document.addEventListener('DOMContentLoaded', () => {
-    fetch('/stations')  // this route should return JSON array of station names
-        .then(response => {
-            if (!response.ok) throw new Error('Failed to fetch stations');
-            return response.json();
-        })
-        .then(stations => {
-            const sourceDatalist = document.getElementById('sourceStations');
-            const destDatalist = document.getElementById('destStations');
-
-            stations.forEach(station => {
-                const option1 = document.createElement('option');
-                option1.value = station;
-                sourceDatalist.appendChild(option1);
-
-                const option2 = document.createElement('option');
-                option2.value = station;
-                destDatalist.appendChild(option2);
-            });
-        })
-        .catch(error => console.error('Error fetching stations:', error));
-});
-
-
-
-
-
-
 function searchTrains() {
     const source = document.getElementById('source').value;
     const destination = document.getElementById('destination').value;

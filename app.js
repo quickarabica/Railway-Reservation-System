@@ -94,15 +94,12 @@ app.get('/search', (req, res) => {
     res.render(path.join(__dirname, 'views', 'search.html'));
 });
 
-app.get('/stations', async (req, res) => {
-    try {
-        const result = await db.all('SELECT StationName FROM Station');
-        const stationNames = result.map(row => row.StationName);
-        res.json(stationNames);
-    } catch (err) {
-        console.error('Error fetching stations:', err);
-        res.status(500).json({ error: 'Database error' });
-    }
+  
+app.get('/stations', (req, res) => {
+    db.query('SELECT StationName FROM Station', (err, results) => {
+        if (err) return res.status(500).send(err);
+        res.json(results);
+    });
 });
 
 app.post('/search', (req, res) => {
@@ -124,7 +121,6 @@ app.post('/search', (req, res) => {
                 console.error('DB Error:', err);
                 return res.status(500).send('Error searching trains.');
             }
-            console.log('Raw rows:', rows); // Log raw data
             res.json(rows);
         }
     );
@@ -171,6 +167,20 @@ app.get('/logout', (req, res) => {
     res.redirect('/');
 });
 
+app.set('view engine', 'ejs');
+const adminRoutes = require('./routes/admin');
+app.use('/admin', adminRoutes);
+const router = express.Router();
+router.get('/users', (req, res) => {
+    db.all('SELECT * FROM User', (err, rows) => {
+        if (err) {
+          res.status(500).send("Error fetching users");
+        } else {
+          res.render('admin/users', { users: rows });
+        }
+      });
+      
+  });
 // Start server
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
