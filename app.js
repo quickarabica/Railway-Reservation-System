@@ -170,17 +170,10 @@ app.get('/logout', (req, res) => {
 app.set('view engine', 'ejs');
 const adminRoutes = require('./routes/admin');
 app.use('/admin', adminRoutes);
-const router = express.Router();
-router.get('/users', (req, res) => {
-    db.all('SELECT * FROM User', (err, rows) => {
-        if (err) {
-          res.status(500).send("Error fetching users");
-        } else {
-          res.render('admin/users', { users: rows });
-        }
-      });
-      
+app.get('/admin', (req, res) => {
+    res.render('admin');  // make sure admin.ejs exists in /views
   });
+  
 // Start server
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);

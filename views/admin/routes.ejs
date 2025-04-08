@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Routes Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <div class="container py-4">
+    <h2>Routes Management</h2>
+
+<form method="POST" action="/admin/routes/add" class="row g-3 mb-4">
+  <div class="col-md-3">
+    <select name="SourceStationID" class="form-select" required>
+      <% stations.forEach(s => { %>
+        <option value="<%= s.StationID %>"><%= s.StationName %></option>
+      <% }) %>
+    </select>
+  </div>
+  <div class="col-md-3">
+    <select name="DestinationStationID" class="form-select" required>
+      <% stations.forEach(s => { %>
+        <option value="<%= s.StationID %>"><%= s.StationName %></option>
+      <% }) %>
+    </select>
+  </div>
+  <div class="col-md-3"><input type="number" step="0.1" name="Distance" class="form-control" placeholder="Distance" required></div>
+  <div class="col-md-3"><button class="btn btn-primary">Add Route</button></div>
+</form>
+
+<table class="table table-bordered">
+  <thead><tr><th>ID</th><th>Source</th><th>Destination</th><th>Distance</th><th>Actions</th></tr></thead>
+  <tbody>
+    <% routes.forEach(r => { %>
+      <tr>
+        <form method="POST" action="/admin/routes/edit/<%= r.RouteID %>">
+          <td><%= r.RouteID %></td>
+          <td>
+            <select name="SourceStationID" class="form-select">
+              <% stations.forEach(s => { %>
+                <option value="<%= s.StationID %>" <%= s.StationID === r.SourceStationID ? 'selected' : '' %>><%= s.StationName %></option>
+              <% }) %>
+            </select>
+          </td>
+          <td>
+            <select name="DestinationStationID" class="form-select">
+              <% stations.forEach(s => { %>
+                <option value="<%= s.StationID %>" <%= s.StationID === r.DestinationStationID ? 'selected' : '' %>><%= s.StationName %></option>
+              <% }) %>
+            </select>
+          </td>
+          <td><input type="number" name="Distance" step="0.1" class="form-control" value="<%= r.Distance %>"></td>
+          <td>
+            <button class="btn btn-success btn-sm">Save</button>
+            <form method="POST" action="/admin/routes/delete/<%= r.RouteID %>" style="display:inline;">
+              <button class="btn btn-danger btn-sm" onclick="return confirm('Delete this route?')">Delete</button>
+            </form>
+          </td>
+        </form>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+</div>
+</body>
+</html>

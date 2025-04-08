@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Train Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    .glass-input {
+      background: rgba(163, 232, 255, 0.6); /* Light blue with transparency */
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: 1px solid rgba(173, 216, 230, 0.3);
+      border-radius: 10px;
+      color: #333;
+    }
+
+    .glass-input::placeholder {
+      color: #0c0505;
+    }
+
+    .glass-card {
+  background: rgba(255, 255, 255, 0.15);         /* Very light translucent white */
+  backdrop-filter: blur(16px) saturate(180%);    /* Strong blur and brightness */
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-radius: 20px;                           /* Smoother corners */
+  border: 1px solid rgba(153, 142, 215, 0.3);     /* Soft border for depth */
+  padding: 25px;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);  /* Softer glowing shadow */
+  transition: all 0.3s ease;
+}
+
+  </style>
+</head>
+<body class="bg-light">
+  <div class="container py-4">
+    <h2 class="mb-4">Train Management</h2>
+
+    <!-- Add Train Form -->
+    <!-- Add Train Form -->
+<div class="glass-card mb-4">
+  <form action="/admin/trains/add" method="POST" class="row g-3">
+    <div class="col-md-3">
+      <input name="TrainNumber" class="form-control glass-input" placeholder="Train Number" required>
+    </div>
+    <div class="col-md-4">
+      <input name="TrainName" class="form-control glass-input" placeholder="Train Name" required>
+    </div>
+      <div class="col-md-3">
+        <!-- Dropdown for Train Type -->
+          <select name="TrainType" class="form-control glass-input" required>
+          <option value="">Select Type</option>
+          <option value="Express">Express</option>
+          <option value="Superfast">Superfast</option>
+       </select>
+     </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary w-100">Add Train</button>
+      </div>
+    </form>
+  </div>
+
+
+    <!-- Train Table -->
+    <div class="glass-card">
+      <table class="table table-bordered table-hover mb-0 custom-table">
+        <thead>
+          <tr><th>ID</th><th>Number</th><th>Name</th><th>Type</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+          <% trains.forEach(train => { %>
+            <tr>
+              <form method="POST" action="/admin/trains/edit/<%= train.TrainID %>">
+                <td><%= train.TrainID %></td>
+                <td><input name="TrainNumber" value="<%= train.TrainNumber %>" class="form-control glass-input" required></td>
+                <td><input name="TrainName" value="<%= train.TrainName %>" class="form-control glass-input" required></td>
+                <td>
+                  <select name="TrainType" class="form-control glass-input" required>
+                    <option value="Express" <%= train.TrainType === 'Express' ? 'selected' : '' %>>Express</option>
+                    <option value="Superfast" <%= train.TrainType === 'Superfast' ? 'selected' : '' %>>Superfast</option>
+                  </select>
+                </td>
+                <td>
+                  <button class="btn btn-sm btn-success me-2">Save</button>
+              </form>
+              <form method="POST" action="/admin/trains/delete/<%= train.TrainID %>" style="display:inline;">
+                <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this train?')">Delete</button>
+              </form>
+                </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+    
+  </div>
+</body>
+</html>
