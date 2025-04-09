@@ -11,7 +11,7 @@ const port = 3000;
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 app.set('view engine', 'html');
 app.engine('html', require('ejs').renderFile);
 
@@ -88,11 +88,17 @@ app.post('/login', (req, res) => {
     });
 });
 
-// Search trains
 app.get('/search', (req, res) => {
     if (!req.session.userId) return res.redirect('/login');
-    res.render(path.join(__dirname, 'views', 'search.html'));
-});
+  
+    db.all(`SELECT StationName FROM Station ORDER BY StationName ASC`, (err, stations) => {
+      if (err) {
+        console.error(err);
+        return res.send('Error fetching stations.');
+      }
+      res.render('search.ejs', { stations }); // change to .ejs if not already
+    });
+  });
 
   
 app.get('/stations', (req, res) => {
@@ -156,10 +162,12 @@ app.post('/booking', (req, res) => {
         [userId, scheduleId, totalFare],
         function(err) {
             if (err) return res.send('Error booking.');
-            res.send(`Booking confirmed! Booking ID: ${this.lastID}`);
+            // Pass the booking ID to the template
+            res.render('confirmation', { bookingId: this.lastID });
         }
     );
 });
+
 
 // Logout
 app.get('/logout', (req, res) => {
