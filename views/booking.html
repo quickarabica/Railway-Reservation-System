@@ -1,20 +1,96 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Book Train</title>
-    <link rel="stylesheet" href="/style.css">
+  <meta charset="UTF-8">
+  <title>Book Train</title>
+  <link rel="stylesheet" href="/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Rubik', sans-serif;
+      background: linear-gradient(135deg,rgb(152, 210, 232),rgb(44, 66, 92));
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 40px 50px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 25px;
+      color: #2c3e50;
+    }
+
+    p {
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 14px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      background: rgba(255, 255, 255, 0.8);
+      transition: box-shadow 0.3s ease;
+    }
+
+    input[type="number"]:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px #90caf9;
+    }
+
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      background: linear-gradient(to right, #42a5f5, #478ed1);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.03);
+      background: linear-gradient(to right, #1e88e5, #1565c0);
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Book Train</h1>
-        <p>Train: <%= schedule.TrainName %></p>
-        <p>From: <%= schedule.Source %> To: <%= schedule.Dest %></p>
-        <p>Departure: <%= schedule.DepartureTime %> | Arrival: <%= schedule.ArrivalTime %></p>
-        <form method="POST" action="/booking">
-            <input type="hidden" name="scheduleId" value="<%= schedule.ScheduleID %>">
-            <input type="number" name="passengers" placeholder="Number of Passengers" min="1" required>
-            <button type="submit">Confirm Booking</button>
-        </form>
-    </div>
+  <div class="container">
+    <h1>Book Train</h1>
+    <p>Train: <%= schedule.TrainName %></p>
+    <p>From: <%= schedule.Source %> ➝ <%= schedule.Dest %></p>
+    <p>Departure: <%= schedule.DepartureTime %></p>
+    <p>Arrival: <%= schedule.ArrivalTime %></p>
+
+    <form method="POST" action="/booking">
+      <input type="hidden" name="scheduleId" value="<%= schedule.ScheduleID %>">
+      <input type="number" name="passengers" placeholder="Number of Passengers" min="1" required>
+      <button type="submit">Confirm Booking</button>
+    </form>
+  </div>
 </body>
 </html>
